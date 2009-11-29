@@ -17,6 +17,7 @@ module WCAPI
       _id = ""
       _citation = ""
       _summary = ""
+      _contents = ""
       _xml = xml
       _rechash = {}
       _x = 0
@@ -44,6 +45,12 @@ module WCAPI
            }
          end
 
+         if xpath_first(item, "datafield[@tag='505']" ) != nil  
+            xpath_all(item, "datafield[@tag='505']/subfield[@code='a']").each { |i|
+              _contents = (xpath_get_text(i))
+           }
+         end
+
          if xpath_first(item, "controlfield[@tag='001']") != nil 
            _id = xpath_get_text(xpath_first(item, "controlfield[@tag='001']")) 
            _link = 'http://www.worldcat.org/oclc/' + _id.to_s
@@ -58,7 +65,7 @@ module WCAPI
 	 end
 
          _rechash = {:title => _title, :author => _author, :link => _link, :id => _id, :citation => _citation, 
-		     :summary => _summary, :xml => item.to_s}
+		     :summary => _summary,:contents => _contents, :xml => item.to_s}
       }
       @record = _rechash
    end
