@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'wcapi'
 
-client = WCAPI::Client.new :wskey => 'PYNtMxToldTvjQdsCUPqph5WPv2jnXX4IICzKZmILTHZRQ42JslUTz7Q6ngC4P1UVEkpyZ9XHbIGlfMX'
+client = WCAPI::Client.new :wskey => ''
 
 response = client.OpenSearch(:q=>'building digital libraries', :format=>'atom', :start => '1', :count => '25', :cformat => 'all')
 
