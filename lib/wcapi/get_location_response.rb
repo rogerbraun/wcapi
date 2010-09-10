@@ -22,11 +22,11 @@ module WCAPI
         require 'xml/libxml'
         _parser = XML::Parser.string(xml)
         doc = _parser.parse
-      rescue
+      rescue LoadError
         begin
           require 'rexml/document'
           doc = REXML::Document.new(xml)
-        rescue
+        rescue LoadError
           #likely some kind of xml error
         end
       end

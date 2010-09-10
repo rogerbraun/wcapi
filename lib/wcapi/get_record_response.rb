@@ -30,42 +30,42 @@ module WCAPI
       end
 
       nodes = xpath_all(doc, "/record")
-      puts "NODE Count: " + nodes.length.to_s
-      nodes.each { |item |
+      #puts "NODE Count: " + nodes.length.to_s
+      nodes.each { |item|
         _title = xpath_get_text(xpath_first(item, "datafield[@tag='245']/subfield[@code='a']"))
-      puts "TITLE: " + _title
-      if xpath_first(item, "datafield[@tag='100']") != nil
-        xpath_all(item, "datafield[@tag='100']/subfield[@code='a']").each { |i|
-          _author.push(xpath_get_text(i))
-        }
-      end
-      if xpath_first(item, "datafield[@tag='700']" ) != nil
-        xpath_all(item, "datafield[@tag='700']/subfield[@code='a']").each { |i|
-          _author.push(xpath_get_text(i))
-        }
-      end
-
-      if xpath_first(item, "datafield[@tag='505']" ) != nil
-        xpath_all(item, "datafield[@tag='505']/subfield[@code='a']").each { |i|
-          _contents = (xpath_get_text(i))
-        }
-      end
-
-      if xpath_first(item, "controlfield[@tag='001']") != nil
-        _id = xpath_get_text(xpath_first(item, "controlfield[@tag='001']"))
-        _link = 'http://www.worldcat.org/oclc/' + _id.to_s
-      end
-
-      if xpath_first(item, "datafield[@tag='520']") != nil
-        _summary = xpath_get_text(xpath_first(item, "datafield[@tag='520']/subfield[@code='a']"))
-      else
-        if xpath_first(item, "datafield[@tag='500']") != nil
-          _summary = xpath_get_text(xpath_first(item, "datafield[@tag='500']/subfield[@code='a']"))
+        #puts "TITLE: " + _title
+        if xpath_first(item, "datafield[@tag='100']") != nil
+          xpath_all(item, "datafield[@tag='100']/subfield[@code='a']").each { |i|
+            _author.push(xpath_get_text(i))
+          }
         end
-      end
+        if xpath_first(item, "datafield[@tag='700']" ) != nil
+          xpath_all(item, "datafield[@tag='700']/subfield[@code='a']").each { |i|
+            _author.push(xpath_get_text(i))
+          }
+        end
 
-      _rechash = {:title => _title, :author => _author, :link => _link, :id => _id, :citation => _citation,
-        :summary => _summary,:contents => _contents, :xml => item.to_s}
+        if xpath_first(item, "datafield[@tag='505']" ) != nil
+          xpath_all(item, "datafield[@tag='505']/subfield[@code='a']").each { |i|
+            _contents = (xpath_get_text(i))
+          }
+        end
+
+        if xpath_first(item, "controlfield[@tag='001']") != nil
+          _id = xpath_get_text(xpath_first(item, "controlfield[@tag='001']"))
+          _link = 'http://www.worldcat.org/oclc/' + _id.to_s
+        end
+
+        if xpath_first(item, "datafield[@tag='520']") != nil
+          _summary = xpath_get_text(xpath_first(item, "datafield[@tag='520']/subfield[@code='a']"))
+        else
+          if xpath_first(item, "datafield[@tag='500']") != nil
+            _summary = xpath_get_text(xpath_first(item, "datafield[@tag='500']/subfield[@code='a']"))
+          end
+        end
+
+        _rechash = {:title => _title, :author => _author, :link => _link, :id => _id, :citation => _citation,
+          :summary => _summary,:contents => _contents, :xml => item.to_s}
       }
       @record = _rechash
     end

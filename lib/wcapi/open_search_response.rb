@@ -101,11 +101,11 @@ module WCAPI
         #doc = LibXML::XML::Document.new()
         #doc = _parser.parse
         doc = LibXML::XML::Document.string(xml)
-      rescue
+      rescue LoadError
         begin
           require 'rexml/document'
           doc = REXML::Document.new(xml)
-        rescue
+        rescue LoadError
           #likely some kind of xml error
         end
       end
