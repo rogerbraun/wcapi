@@ -20,9 +20,7 @@ module WCAPI
 
       begin
         require 'xml/libxml'
-        _parser = LibXML::XML::Parser.new()
-        _parser.string = xml
-        doc = LibXML::XML::Document.new()
+        _parser = XML::Parser.string(xml)
         doc = _parser.parse
       rescue
         begin
