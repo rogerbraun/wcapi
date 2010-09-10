@@ -25,6 +25,9 @@ module WCAPI
     # :debug => true
     
     def initialize(options={})
+      if options[:wskey].nil? || options[:wskey].empty?
+        raise(ArgumentError, "You should provide a API key!")
+      end
       @debug = options[:debug]
       #if defined?(options[:xmlparser]: 
       #	 @xmlparser = options[:xmlparser]
