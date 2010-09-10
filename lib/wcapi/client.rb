@@ -2,10 +2,10 @@ require 'uri'
 require 'net/http'
 require 'cgi'
 
-module WCAPI 
+module WCAPI
 
   # The WCAPI::Client object provides a public facing interface to interacting
-  # with the various WorldCat API Grid Services. 
+  # with the various WorldCat API Grid Services.
   #
   #   client = WCAPI::Client.new :query => 'query', :format => [atom|rss], :start => [position], :count => [max records], :cformat => [mla|apa], :wskey => [your world cat key
   # options:
@@ -14,43 +14,43 @@ module WCAPI
   #
   #
   # More information can be found at:
-  #   http://worldcat.org/devnet/wiki/SearchAPIDetails  
-  
+  #   http://worldcat.org/devnet/wiki/SearchAPIDetails
+
   class Client
 
-    # The constructor which must be passed a valid base url for an oai 
+    # The constructor which must be passed a valid base url for an oai
     # service:
     #
     # If you want to see debugging messages on STDERR use:
     # :debug => true
-    
+
     def initialize(options={})
       if options[:wskey].nil? || options[:wskey].empty?
         raise(ArgumentError, "You should provide a API key!")
       end
       @debug = options[:debug]
-      #if defined?(options[:xmlparser]: 
-      #	 @xmlparser = options[:xmlparser]
+      #if defined?(options[:xmlparser]:
+      #  @xmlparser = options[:xmlparser]
       #else
-      #	 @xmlparser = 'rexml'
+      #  @xmlparser = 'rexml'
       #end
       @wskey = options[:wskey]
     end
 
     # Equivalent to a Identify request. You'll get back a OAI::IdentifyResponse
-    # object which is essentially just a wrapper around a REXML::Document 
+    # object which is essentially just a wrapper around a REXML::Document
     # for the response.
-    
-    def OpenSearch(opts={}) 
-      @base = URI.parse WORLDCAT_OPENSEARCH
+
+    def open_search(opts={})
+      @base = URI.parse WCAPI::WORLDCAT_OPENSEARCH
       opts["wskey"] = @wskey
       xml = do_request(opts)
       return OpenSearchResponse.new(xml)
     end
 
-    def GetRecord(opts={})
+    def get_record(opts={})
       if opts[:type] == 'isbn'
-	      @base = URI.parse 'http://www.worldcat.org/webservices/catalog/content/isbn/' + opts[:id]
+        @base = URI.parse 'http://www.worldcat.org/webservices/catalog/content/isbn/' + opts[:id]
       else
         @base = URI.parse "http://www.worldcat.org/webservices/catalog/content/" + opts[:id]
       end
@@ -62,7 +62,7 @@ module WCAPI
     end
 
 
-    def GetLocations(opts={})
+    def get_locations(opts={})
       if opts[:type] == 'oclc'
         @base = URI.parse "http://www.worldcat.org/webservices/catalog/content/libraries/" + opts[:id]
       else
@@ -73,9 +73,9 @@ module WCAPI
       opts["wskey"] = @wskey
       xml = do_request(opts)
       return GetLocationResponse.new(xml)
-    end    
+    end
 
-    def GetCitation(opts = {})
+    def get_citation(opts = {})
       if opts[:type] == 'oclc'
         @base = URI.parse "http://www.worldcat.org/webservices/catalog/content/citations/" + opts[:id]
       else
@@ -89,15 +89,15 @@ module WCAPI
       return xml
     end
 
-    def SRUSearch(opts={})
-      @base = URI.parse WORLDCAT_SRU
+    def sru_search(opts={})
+      @base = URI.parse WCAPI::WORLDCAT_SRU
       opts["wskey"] = @wskey
       xml = do_request(opts)
-      return SruSearchResponse.new(xml)
+      return SRUSearchResponse.new(xml)
     end
 
 
-    private 
+    private
 
     def do_request(hash)
       uri = @base.clone
@@ -116,7 +116,7 @@ module WCAPI
       begin
         xml = Net::HTTP.get(uri)
         debug("got response: #{xml}")
-	return xml
+        return xml
       rescue SystemCallError=> e
         #raise WCAPI::Exception, 'HTTP level error during WCAPI  request: '+e, caller
       end

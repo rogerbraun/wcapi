@@ -7,15 +7,15 @@ module WCAPI
       case parser_type(pdoc)
       when 'libxml'
         if namespace!=""
-           return pdoc.find(path, namespace) if pdoc.find(path, namespace)
+          return pdoc.find(path, namespace) if pdoc.find(path, namespace)
         else
-           return pdoc.find(path) if pdoc.find(path)
+          return pdoc.find(path) if pdoc.find(path)
         end
       when 'rexml'
         if namespace!=""
-           return REXML::XPath.match(pdoc, path, namespace)
+          return REXML::XPath.match(pdoc, path, namespace)
         else
-           return REXML::XPath.match(pdoc, path);
+          return REXML::XPath.match(pdoc, path);
         end
       end
       return []
@@ -27,18 +27,18 @@ module WCAPI
         elements = xpath_all(doc, path, pnamespace)
         if elements != nil
           case parser_type(doc)
-            when 'libxml'
-                return elements.first
-            when 'rexml'
-                return elements[0]
-            else
-                return nil
+          when 'libxml'
+            return elements.first
+          when 'rexml'
+            return elements[0]
+          else
+            return nil
           end
         else
-           return nil
+          return nil
         end
       rescue
-         return nil
+        return nil
       end
     end
 
@@ -121,9 +121,9 @@ module WCAPI
           return node.attributes[attr_name]
         else
           if defined?(node[attr_name])
-             return node[attr_name]
+            return node[attr_name]
           else
-             return node.property(attr_name)
+            return node.property(attr_name)
           end
         end
       end

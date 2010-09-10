@@ -1,5 +1,5 @@
 module WCAPI
-  class GetLocationResponse 
+  class GetLocationResponse
     include WCAPI::XPath
     attr_accessor :institutions, :raw
 
@@ -9,7 +9,7 @@ module WCAPI
       parse_holdings(doc)
     end
 
-   def parse_holdings(xml)
+    def parse_holdings(xml)
       _oclc_symbol = ""
       _link = ""
       _copies = ""
@@ -24,31 +24,31 @@ module WCAPI
         doc = _parser.parse
       rescue
         begin
-           require 'rexml/document'
-           doc = REXML::Document.new(xml)
+          require 'rexml/document'
+          doc = REXML::Document.new(xml)
         rescue
-           #likely some kind of xml error
+          #likely some kind of xml error
         end
       end
 
       nodes = xpath_all(doc, "//holding")
-      nodes.each { |item |
-         _oclc_symbol = xpath_get_text(xpath_first(item, "institutionIdentifier/value")) 
+      nodes.each { |item|
+        _oclc_symbol = xpath_get_text(xpath_first(item, "institutionIdentifier/value"))
 
-         if xpath_first(item, "electronicAddress/text") != nil 
-           _link = xpath_get_text(xpath_first(item, "electronicAddress/text")) 
-         end
+      if xpath_first(item, "electronicAddress/text") != nil
+        _link = xpath_get_text(xpath_first(item, "electronicAddress/text"))
+      end
 
-         if xpath_first(item, "holdingSimple/copiesSummary/copiesCount") != nil
-	    _copies = xpath_get_text(xpath_first(item, "holdingSimple/copiesSummary/copiesCount"))
-	 end
+      if xpath_first(item, "holdingSimple/copiesSummary/copiesCount") != nil
+        _copies = xpath_get_text(xpath_first(item, "holdingSimple/copiesSummary/copiesCount"))
+      end
 
-         _instchash = {:institutionIdentifier => _oclc_symbol, :link => _link, :copies => _copies ,
-		     :xml => item.to_s}
-	_records.push(_instchash)
+      _instchash = {:institution_identifier => _oclc_symbol, :link => _link, :copies => _copies ,
+        :xml => item.to_s}
+      _records.push(_instchash)
       }
       @institutions = _records
-   end
+    end
 
   end
 end

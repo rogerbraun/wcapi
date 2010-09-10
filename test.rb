@@ -3,7 +3,7 @@ require 'wcapi'
 
 client = WCAPI::Client.new :wskey => 'PYNtMxToldTvjQdsCUPqph5WPv2jnXX4IICzKZmILTHZRQ42JslUTz7Q6ngC4P1UVEkpyZ9XHbIGlfMX'
 
-response = client.OpenSearch(:q=>'building digital libraries', :format=>'atom', :start => '1', :count => '25', :cformat => 'all')
+response = client.open_search(:q=>'building digital libraries', :format=>'atom', :start => '1', :count => '25', :cformat => 'all')
 
 puts "Total Results: " + response.header["totalResults"]
 response.records.each {|rec|
@@ -12,39 +12,39 @@ response.records.each {|rec|
   puts "Authors: " + rec[:author].join(" ") + "\n"
   puts "OCLC #: " + rec[:id] + "\n"
   puts "Description: " + rec[:summary] + "\n"
-  puts "citation: " + rec[:citation] + "\n" 
- 
+  puts "citation: " + rec[:citation] + "\n"
+
 }
 
 puts "\n\n\n"
 
 puts "Get Record Test: " + "\n\n"
-record = client.GetRecord(:type => "oclc", :id => "15550774")
+record = client.get_record(:type => "oclc", :id => "15550774")
 
 puts record.record[:title] + "\n"
 puts record.record[:link] + "\n"
 
 puts "\n\n\n"
 puts "Get Location Test: " + "\n\n"
-info = client.GetLocations(:type=>"oclc", :id => "15550774")
+info = client.get_locations(:type=>"oclc", :id => "15550774")
 
 info.institutions.each {|info|
-  puts "Institutional Identifier:  " + info[:institutionIdentifier] + "\n"
+  puts "Institutional Identifier:  " + info[:institution_identifier] + "\n"
   puts "OPAC Link: " + info[:link] + "\n"
   puts "Copies: " + info[:copies] + "\n\n\n"
-} 
+}
 
 puts "\n\n\n"
 puts "Citation Example: " + "\n\n"
 
-citation = client.GetCitation(:type=>"oclc", :id=>"15550774", :cformat => 'all')
+citation = client.get_citation(:type=>"oclc", :id=>"15550774", :cformat => 'all')
 puts citation
 puts "\n\n"
 
 
 puts "\n\n\n"
 puts "SRU Search Example: " + "\n\n"
-records = client.SRUSearch(:query => "civil war")
+records = client.sru_search(:query => "civil war")
 puts "Total Records: " + records.header["numberOfRecords"] + "\n"
 records.records.each {|rec|
   puts "Title: " + rec[:title] + "\n"
