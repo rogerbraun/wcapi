@@ -1,4 +1,15 @@
-This is a fork of Terry Reese's wcapi library.
-http://rubyforge.org/projects/wcapi/
+= WCAPI
 
-Kosuke Tanabe http://mwr.mediacom.keio.ac.jp/~tanabe/
+This is a fork of rogerbraun[http://github.com/rogerbraun]'s wcapi library,
+which is a fork of Kosuke Tanabe[http://github.com/nabeta]'s wcapi library,
+which is a fork of the original Terry Reese's wcapi library.
+http://rubyforge.org/projects/wcapi
+
+Vivien 'v0n' Didelot :)
+
+== Usage
+
+client = WCAPI::Client.new :wskey => '[your_api_key]'
+infos = client.get_locations :type => "isbn", :id => "014330223X", :oclcsymbol => "ATNHU"
+
+infos.institutions.first[:copies] # => "1"
