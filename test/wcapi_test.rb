@@ -9,13 +9,13 @@ require "wcapi"
 class WCAPI_test < Test::Unit::TestCase
 
   def setup
-    @client = WCAPI::Client.new :wskey => 'PYNtMxToldTvjQdsCUPqph5WPv2jnXX4IICzKZmILTHZRQ42JslUTz7Q6ngC4P1UVEkpyZ9XHbIGlfMX'
+    @client = WCAPI::Client.new :wskey => ''
   end
 
   def test_open_search
     response = @client.open_search(:q=>'building digital libraries', :format=>'atom', :start => '1', :count => '25', :cformat => 'all')
 
-    assert_equal 2723, response.header["totalResults"].to_i
+    assert_equal 2724, response.header["totalResults"].to_i
 
     rec = response.records.first
     assert_equal "Building digital libraries : a how-to-do-it manual", rec[:title]
