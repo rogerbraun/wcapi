@@ -8,11 +8,17 @@ which is a fork of the original Terry Reese's wcapi library.
 
 http://rubyforge.org/projects/wcapi
 
-Vivien 'v0n' Didelot :)
-
 == Usage
 
   client = WCAPI::Client.new :wskey => '[your_api_key]'
   infos = client.get_locations :type => "isbn", :id => "014330223X", :oclcsymbol => "ATNHU"
 
   infos.institutions.first[:copies] # => "1"
+
+== Notes
+
+I won't modify or use this code anymore! I don't like the way this gem is written, there is Ruby implementations for Atom, RSS, MARC and Dublin Core. It should use it.
+
+Please have a look at my worldcat[http://github.com/v0n/worldcat] repository.
+
+Vivien 'v0n' Didelot :)
